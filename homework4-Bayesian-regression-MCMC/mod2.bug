@@ -1,0 +1,9 @@
+model {
+      for (i in 1:length(y)) {
+        y[i] ~ dnorm(beta*x1[i],
+sigmasqinv)
+}
+      beta ~ dnorm(0, 10000^2)
+      sigmasqinv ~ dgamma(0.0001, 0.0001)
+      sigmasq <- 1/sigmasqinv
+    }

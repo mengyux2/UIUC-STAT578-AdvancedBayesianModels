@@ -1,0 +1,17 @@
+data {
+  dimY <- dim(logprice)
+  monthcent <- month - mean(month)
+} model {
+  for (j in 1:dimY[1]) {
+    for (i in 1:dimY[2]) {
+      logprice[j,i] ~ dnorm(beta[1,j] + beta[2,j]*monthcent[i], sigmasqyinv)
+    }
+    beta[1:2,j] ~ dmnorm(mubeta, Sigmabetainv)
+  }
+  mubeta ~ dmnorm(mubeta0, Sigmamubetainv)
+  Sigmabetainv ~ dwish(2*Sigma0, 2)
+  sigmasqyinv ~ dgamma(0.0001, 0.0001)
+  Sigmabeta <- inverse(Sigmabetainv)
+  rho <- Sigmabeta[1,2] / sqrt(Sigmabeta[1,1] * Sigmabeta[2,2])
+  sigmasqy <- 1/sigmasqyinv
+}

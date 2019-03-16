@@ -1,0 +1,15 @@
+model {
+  for (i in 1:length(party)) {
+    party[i] ~ dbern(prob[i])
+    logit(prob[i]) <- betaincome*incomescaled[i]+betastate[state[i]]+intercept
+    partyrep[i] ~ dbern(prob[i])
+
+  }
+  for (j in 1:max(state)) {
+    betastate[j] ~ dnorm(0, 1/sigmastate^2)
+  }
+  betaincome ~ dt(0, 0.16, 1)
+  intercept ~ dt(0, 0.01, 1)
+  sigmastateinv ~ dgamma(10, 10)
+  sigmastate <- inverse(sigmastateinv)
+}

@@ -1,0 +1,11 @@
+model {
+  for (i in 1:length(fgm)) {
+    fgm[i] ~ dbin(prob[i], fga[i])
+    logit(prob[i]) <- betapos[pos[i]] + betaheight*heightcaled[i]
+    fgmrep[i] ~ dbin(prob[i], fga[i])
+  }
+  for (j in 1:max(pos)) {
+    betapos[j] ~ dt(0, 0.01, 1)
+  }
+  betaheight ~ dt(0, 0.16, 1)
+}

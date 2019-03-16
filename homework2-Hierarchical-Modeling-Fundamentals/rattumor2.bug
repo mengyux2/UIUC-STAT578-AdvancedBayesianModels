@@ -1,0 +1,10 @@
+model {
+  for (j in 1:length(y)) {
+    y[j] ~ dbin(theta[j], N[j])
+    theta[j] ~ dbeta(alpha, beta)
+}
+  alpha <- phi1 / phi2^2
+  beta <- (1-phi1) / phi2^2
+  phi1 ~ dunif(0,1)
+  phi2 ~ dunif(0,1000)
+}
